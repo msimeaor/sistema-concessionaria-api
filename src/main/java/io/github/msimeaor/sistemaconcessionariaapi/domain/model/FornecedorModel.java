@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.br.CNPJ;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -84,5 +85,8 @@ public class FornecedorModel {
   @Enumerated(EnumType.STRING)
   @Column(name = "UF", nullable = false)
   private Uf uf;
+
+  @OneToMany(mappedBy = "fornecedorModel")
+  private List<ProdutoModel> listaProdutos;
 
 }

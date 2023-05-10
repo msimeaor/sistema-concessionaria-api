@@ -35,7 +35,7 @@ public class ProdutoModel {
   private BigDecimal preco;
 
   @NotNull(message = "{model.message.null}")
-  @OneToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "FORNECEDOR")
   private FornecedorModel fornecedorModel;
 

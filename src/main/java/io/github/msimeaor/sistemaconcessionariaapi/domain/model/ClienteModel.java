@@ -9,6 +9,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -89,5 +90,8 @@ public class ClienteModel {
   @Enumerated(EnumType.STRING)
   @Column(name = "UF", nullable = false)
   private Uf uf;
+
+  @OneToMany(mappedBy = "clienteModel")
+  private List<PedidoModel> listaPedidos;
 
 }
