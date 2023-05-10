@@ -1,14 +1,14 @@
 package io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl;
 
-import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.ClienteDTO;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ClienteModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.ClienteRepository;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.ClienteService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -29,10 +29,12 @@ public class ClienteServiceImpl implements ClienteService {
   }
 
   @Transactional
-  public ClienteModel save(ClienteDTO clienteDTO) {
-    ClienteModel cliente = new ClienteModel();
-    BeanUtils.copyProperties(clienteDTO, cliente);
-    return clienteRepository.save(cliente);
+  public ClienteModel save(ClienteModel clienteModel) {
+    return clienteRepository.save(clienteModel);
+  }
+
+  public Optional<ClienteModel> getById(UUID id) {
+    return clienteRepository.findById(id);
   }
 
 }
