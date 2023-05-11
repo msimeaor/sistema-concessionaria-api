@@ -1,5 +1,6 @@
 package io.github.msimeaor.sistemaconcessionariaapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.msimeaor.sistemaconcessionariaapi.validation.NotEmptyList;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -28,6 +29,7 @@ public class PedidoModel {
   @Column(name = "ID")
   private UUID id;
 
+  @JsonIgnore
   @NotNull(message = "{model.message.null}")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CLIENTE")
