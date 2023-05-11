@@ -37,4 +37,8 @@ public class ClienteServiceImpl implements ClienteService {
     return clienteRepository.findById(id);
   }
 
+  public Optional<ClienteModel> getByCpf(String cpf) {
+    return clienteRepository.findByCpf(cpf);
+  }
+
 }

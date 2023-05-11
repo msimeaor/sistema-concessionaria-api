@@ -12,5 +12,6 @@ public interface ClienteService {
   boolean existsByEmail(String email);
   ClienteModel save(ClienteModel clienteModel);
   Optional<ClienteModel> getById(UUID id);
+  Optional<ClienteModel> getByCpf(String cpf);
 
 }

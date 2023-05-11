@@ -25,15 +25,18 @@ public class ClienteController {
   @PostMapping
   public ResponseEntity<Object> save(@RequestBody @Valid ClienteDTO clienteDTO) {
     if (clienteService.existsByCpf(clienteDTO.getCpf())) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).body("CPF JÁ CADASTRADO!");
+      ErrorMessages errorMessages = new ErrorMessages("CPF JÁ CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
     if (clienteService.existsByEmail(clienteDTO.getEmail())) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).body("EMAIL JÁ CADASTRADO!");
+      ErrorMessages errorMessages = new ErrorMessages("EMAIL JÁ CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
     if (clienteService.existsByRg(clienteDTO.getRg())) {
-      return ResponseEntity.status(HttpStatus.CONFLICT).body("RG JÁ CADASTRADO!");
+      ErrorMessages errorMessages = new ErrorMessages("RG JÁ CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
     ClienteModel clienteModel = new ClienteModel();
@@ -55,6 +58,17 @@ public class ClienteController {
     BeanUtils.copyProperties(clienteDTO, clienteModel);
     clienteModel.setId(clienteModelOptional.get().getId());
     return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(clienteModel));
+  }
+
+  @GetMapping("/{cpf}")
+  public ResponseEntity<Object> getByCpf(@PathVariable(name = "cpf") String cpf) {
+    Optional<ClienteModel> clienteModelOptional = clienteService.getByCpf(cpf);
+    if (!clienteModelOptional.isPresent()) {
+      ErrorMessages errorMessages = new ErrorMessages("CLIENTE NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(clienteModelOptional.get());
   }
 
 }
