@@ -71,4 +71,17 @@ public class ClienteController {
     return ResponseEntity.status(HttpStatus.OK).body(clienteModelOptional.get());
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable(name = "id") UUID id) {
+    Optional<ClienteModel> clienteModelOptional = clienteService.getById(id);
+    if (!(clienteModelOptional.isPresent())) {
+      ErrorMessages errorMessages = new ErrorMessages("CLIENTE NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
+    }
+
+    clienteService.delete(clienteModelOptional.get());
+    return ResponseEntity.status(HttpStatus.OK).body("CLIENTE REMOVIDO COM SUCESSO!");
+
+  }
+
 }

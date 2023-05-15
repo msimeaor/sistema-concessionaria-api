@@ -41,4 +41,20 @@ public class ClienteServiceImpl implements ClienteService {
     return clienteRepository.findByCpf(cpf);
   }
 
+  @Transactional
+  public void delete(ClienteModel clienteModel) {
+    desvincularPedidosAoCliente(clienteModel);
+    clienteRepository.delete(clienteModel);
+  }
+
+  private void desvincularPedidosAoCliente(ClienteModel clienteModel) {
+    if (clienteModel.getListaPedidos().isEmpty()) {
+      System.out.println("O CLIENTE NÃO POSSUI PEDIDOS!");
+    } else {
+      clienteModel.getListaPedidos().forEach(pedidoModel -> {
+        pedidoModel.setClienteModel(null);
+      });
+    }
+  }
+
 }
