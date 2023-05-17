@@ -74,7 +74,7 @@ public class FuncionarioDTO {
   @Size(max = 50, message = "{model.message.size.limit}")
   private String cidade;
 
-  @NotEmpty(message = "{model.message.empty}")
+  @NotNull(message = "{model.message.null}")
   @Enumerated(EnumType.STRING)
   private Uf uf;
 

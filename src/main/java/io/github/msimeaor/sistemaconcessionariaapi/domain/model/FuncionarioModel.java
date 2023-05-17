@@ -103,7 +103,7 @@ public class FuncionarioModel {
   @Column(name = "CIDADE", nullable = false, length = 50)
   private String cidade;
 
-  @NotEmpty(message = "{model.message.empty}")
+  @NotNull(message = "{model.message.null}")
   @Enumerated(EnumType.STRING)
   @Column(name = "UF", nullable = false)
   private Uf uf;
