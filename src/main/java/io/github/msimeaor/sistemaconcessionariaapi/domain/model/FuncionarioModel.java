@@ -61,8 +61,8 @@ public class FuncionarioModel {
 
   @NotEmpty(message = "{model.message.empty}")
   @Size(max = 50, message = "{model.message.size.limit}")
-  @Column(name = "NIVEL_ACESSO", nullable = false, length = 50)
-  private String nivelAcesso;
+  @Column(name = "ACESSO", nullable = false, length = 50)
+  private String acesso;
 
   @NotEmpty(message = "{model.message.empty}")
   @Size(max = 12, message = "{model.message.size.limit}")

@@ -41,7 +41,7 @@ public class FuncionarioDTO {
 
   @NotEmpty(message = "{model.message.empty}")
   @Size(max = 50, message = "{model.message.size.limit}")
-  private String nivelAcesso;
+  private String acesso;
 
   @NotEmpty(message = "{model.message.empty}")
   @Size(max = 12, message = "{model.message.size.limit}")

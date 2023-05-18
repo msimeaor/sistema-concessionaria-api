@@ -7,6 +7,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -29,6 +31,14 @@ public class FuncionarioServiceImpl implements FuncionarioService {
   @Transactional
   public FuncionarioModel save(FuncionarioModel funcionarioModel) {
     return funcionarioRepository.save(funcionarioModel);
+  }
+
+  public Optional<FuncionarioModel> getByCpf(String cpf) {
+    return funcionarioRepository.findByCpf(cpf);
+  }
+
+  public Optional<FuncionarioModel> getById(UUID id) {
+    return funcionarioRepository.findById(id);
   }
 
 }

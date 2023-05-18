@@ -11,6 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -37,9 +39,40 @@ public class FuncionarioController {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
+    FuncionarioModel funcionarioModel = instanciarESetarPropriedadesFuncionario(funcionarioDTO);
+    return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionarioModel));
+  }
+
+  @GetMapping("/{CPF}")
+  public ResponseEntity<Object> getByCpf(@PathVariable(name = "CPF") String cpf) {
+    Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getByCpf(cpf);
+    if (!(funcionarioModelOptional.isPresent())) {
+      ErrorMessages errorMessages = new ErrorMessages("FUNCIONÁRIO NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
+    }
+
+    return ResponseEntity.status(HttpStatus.OK).body(funcionarioModelOptional.get());
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Object> update(@PathVariable(name = "id") UUID id,
+                                       @RequestBody @Valid FuncionarioDTO funcionarioDTO) {
+
+    Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getById(id);
+    if (!(funcionarioModelOptional.isPresent())) {
+      ErrorMessages errorMessages = new ErrorMessages("FUNCIONÁRIO NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
+    }
+
+    FuncionarioModel funcionarioModel = instanciarESetarPropriedadesFuncionario(funcionarioDTO);
+    funcionarioModel.setId(funcionarioModelOptional.get().getId());
+    return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.save(funcionarioModel));
+  }
+
+  private FuncionarioModel instanciarESetarPropriedadesFuncionario(FuncionarioDTO funcionarioDTO) {
     FuncionarioModel funcionarioModel = new FuncionarioModel();
     BeanUtils.copyProperties(funcionarioDTO, funcionarioModel);
-    return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionarioModel));
+    return funcionarioModel;
   }
 
 }
