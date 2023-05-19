@@ -32,7 +32,7 @@ public class FuncionarioDTO {
   private String email;
 
   @NotEmpty(message = "{model.message.empty}")
-  @Size(max = 50, message = "{model.message.size.limit}")
+  @Size(max = 100, message = "{model.message.size.limit}")
   private String senha;
 
   @NotEmpty(message = "{model.message.empty}")

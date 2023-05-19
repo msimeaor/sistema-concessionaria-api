@@ -50,8 +50,8 @@ public class FuncionarioModel {
   private String email;
 
   @NotEmpty(message = "{model.message.empty}")
-  @Size(max = 50, message = "{model.message.size.limit}")
-  @Column(name = "SENHA", nullable = false, length = 50)
+  @Size(max = 100, message = "{model.message.size.limit}")
+  @Column(name = "SENHA", nullable = false, length = 100)
   private String senha;
 
   @NotEmpty(message = "{model.message.empty}")
