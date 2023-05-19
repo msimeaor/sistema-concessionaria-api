@@ -41,4 +41,9 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     return funcionarioRepository.findById(id);
   }
 
+  @Transactional
+  public void deletar(FuncionarioModel funcionarioModel) {
+    funcionarioRepository.delete(funcionarioModel);
+  }
+
 }

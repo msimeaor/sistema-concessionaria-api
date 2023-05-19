@@ -13,5 +13,6 @@ public interface FuncionarioService {
   FuncionarioModel save(FuncionarioModel funcionarioModel);
   Optional<FuncionarioModel> getByCpf(String cpf);
   Optional<FuncionarioModel> getById(UUID id);
+  void deletar(FuncionarioModel funcionarioModel);
 
 }

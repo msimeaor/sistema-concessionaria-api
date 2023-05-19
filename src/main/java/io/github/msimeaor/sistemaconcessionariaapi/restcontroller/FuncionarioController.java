@@ -69,6 +69,19 @@ public class FuncionarioController {
     return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.save(funcionarioModel));
   }
 
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Object> delete(@PathVariable(name = "id") UUID id) {
+    Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getById(id);
+    if (!(funcionarioModelOptional.isPresent())) {
+      ErrorMessages errorMessages = new ErrorMessages("CLIENTE NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
+    }
+
+    funcionarioService.deletar(funcionarioModelOptional.get());
+    return ResponseEntity.status(HttpStatus.OK).body("FUNCIONÁRIO DELETADO COM SUCESSO!");
+
+  }
+
   private FuncionarioModel instanciarESetarPropriedadesFuncionario(FuncionarioDTO funcionarioDTO) {
     FuncionarioModel funcionarioModel = new FuncionarioModel();
     BeanUtils.copyProperties(funcionarioDTO, funcionarioModel);
