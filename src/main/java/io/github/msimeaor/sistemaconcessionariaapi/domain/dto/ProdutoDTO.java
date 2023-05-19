@@ -20,7 +20,4 @@ public class ProdutoDTO {
   @PositiveOrZero(message = "{model.message.negative.value}")
   private BigDecimal preco;
 
-  @NotNull(message = "{model.message.null}")
-  private UUID fornecedor;
-
 }
