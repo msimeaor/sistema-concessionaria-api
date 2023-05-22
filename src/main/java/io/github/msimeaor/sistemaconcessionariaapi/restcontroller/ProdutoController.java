@@ -1,10 +1,13 @@
 package io.github.msimeaor.sistemaconcessionariaapi.restcontroller;
 
+import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.ProdutoDTO;
+import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ProdutoModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.ProdutoServiceImpl;
+import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -13,5 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 public class ProdutoController {
 
   private final ProdutoServiceImpl produtoService;
+
+  @PostMapping
+  public ResponseEntity<Object> save(@RequestBody ProdutoDTO produtoDTO) {
+    if (produtoService.existsByChassi(produtoDTO.getChassi())) {
+      ErrorMessages errorMessages = new ErrorMessages("CHASSI JÁ CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
+    }
+
+    ProdutoModel produtoModel = ClienteController.instanciarESetarPropriedades(produtoDTO, ProdutoModel.class);
+    return ResponseEntity.status(HttpStatus.CREATED).body(produtoService.save(produtoModel));
+
+  }
 
 }

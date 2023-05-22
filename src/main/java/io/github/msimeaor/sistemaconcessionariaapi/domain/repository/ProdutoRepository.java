@@ -9,6 +9,6 @@ import java.util.UUID;
 @Repository
 public interface ProdutoRepository extends JpaRepository<ProdutoModel, UUID> {
 
-
+  boolean existsByChassi(String chassi);
 
 }

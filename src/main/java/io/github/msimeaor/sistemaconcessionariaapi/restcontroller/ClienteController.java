@@ -1,7 +1,9 @@
 package io.github.msimeaor.sistemaconcessionariaapi.restcontroller;
 
 import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.ClienteDTO;
+import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.FuncionarioDTO;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ClienteModel;
+import io.github.msimeaor.sistemaconcessionariaapi.domain.model.FuncionarioModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.ClienteServiceImpl;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
@@ -39,8 +41,7 @@ public class ClienteController {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
-    ClienteModel clienteModel = new ClienteModel();
-    BeanUtils.copyProperties(clienteDTO, clienteModel);
+    ClienteModel clienteModel = instanciarESetarPropriedades(clienteDTO, ClienteModel.class);
     return ResponseEntity.status(HttpStatus.CREATED).body(clienteService.save(clienteModel));
   }
 
@@ -54,8 +55,7 @@ public class ClienteController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
     }
 
-    ClienteModel clienteModel = new ClienteModel();
-    BeanUtils.copyProperties(clienteDTO, clienteModel);
+    ClienteModel clienteModel = instanciarESetarPropriedades(clienteDTO, ClienteModel.class);
     clienteModel.setId(clienteModelOptional.get().getId());
     return ResponseEntity.status(HttpStatus.OK).body(clienteService.save(clienteModel));
   }
@@ -82,6 +82,20 @@ public class ClienteController {
     clienteService.delete(clienteModelOptional.get());
     return ResponseEntity.status(HttpStatus.OK).body("CLIENTE REMOVIDO COM SUCESSO!");
 
+  }
+
+  public static <T, R> R instanciarESetarPropriedades(T dto, Class<R> classeRetorno) {
+    R instancia = null;
+     try {
+
+       instancia = classeRetorno.getDeclaredConstructor().newInstance();
+       BeanUtils.copyProperties(dto, instancia);
+
+     } catch (Exception e) {
+       System.out.println(e.getMessage());
+     }
+
+     return instancia;
   }
 
 }

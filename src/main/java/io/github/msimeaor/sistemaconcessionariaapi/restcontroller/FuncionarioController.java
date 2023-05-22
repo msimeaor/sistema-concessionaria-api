@@ -5,7 +5,6 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.model.FuncionarioModel
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.FuncionarioServiceImpl;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +38,7 @@ public class FuncionarioController {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
     }
 
-    FuncionarioModel funcionarioModel = instanciarESetarPropriedadesFuncionario(funcionarioDTO);
+    FuncionarioModel funcionarioModel = ClienteController.instanciarESetarPropriedades(funcionarioDTO, FuncionarioModel.class);
     return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionarioModel));
   }
 
@@ -64,7 +63,7 @@ public class FuncionarioController {
       return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorMessages.getMensagem());
     }
 
-    FuncionarioModel funcionarioModel = instanciarESetarPropriedadesFuncionario(funcionarioDTO);
+    FuncionarioModel funcionarioModel = ClienteController.instanciarESetarPropriedades(funcionarioDTO, FuncionarioModel.class);
     funcionarioModel.setId(funcionarioModelOptional.get().getId());
     return ResponseEntity.status(HttpStatus.OK).body(funcionarioService.save(funcionarioModel));
   }
@@ -80,12 +79,6 @@ public class FuncionarioController {
     funcionarioService.deletar(funcionarioModelOptional.get());
     return ResponseEntity.status(HttpStatus.OK).body("FUNCIONÁRIO DELETADO COM SUCESSO!");
 
-  }
-
-  private FuncionarioModel instanciarESetarPropriedadesFuncionario(FuncionarioDTO funcionarioDTO) {
-    FuncionarioModel funcionarioModel = new FuncionarioModel();
-    BeanUtils.copyProperties(funcionarioDTO, funcionarioModel);
-    return funcionarioModel;
   }
 
 }
