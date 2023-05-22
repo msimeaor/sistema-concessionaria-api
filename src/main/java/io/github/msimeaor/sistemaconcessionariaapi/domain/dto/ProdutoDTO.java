@@ -39,6 +39,13 @@ public class ProdutoDTO {
   @Size(max = 3, message = "{model.message.size.limit}")
   private String motor;
 
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 50, message = "{model.message.size.limit}")
+  private String kilometragem;
+
+  @NotNull(message = "{model.message.null}")
+  private Integer estoque;
+
   @NotNull(message = "{model.message.null}")
   @Digits(integer = 20, fraction = 2, message = "{model.message.invalid.price}")
   @PositiveOrZero(message = "{model.message.negative.value}")

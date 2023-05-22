@@ -57,6 +57,15 @@ public class ProdutoModel {
   @Column(name = "MOTOR", nullable = false, length = 3)
   private String motor;
 
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 50, message = "{model.message.size.limit}")
+  @Column(name = "KILOMETRAGEM", nullable = false, length = 50)
+  private String kilometragem;
+
+  @NotNull(message = "{model.message.null}")
+  @Column(name = "ESTOQUE", nullable = false)
+  private Integer estoque;
+
   @NotNull(message = "{model.message.null}")
   @Digits(integer = 20, fraction = 2, message = "{model.message.invalid.price}")
   @PositiveOrZero(message = "{model.message.negative.value}")
