@@ -7,6 +7,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +26,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 
   public boolean existsByPlaca(String placa) {
     return produtoRepository.existsByPlaca(placa);
+  }
+
+  public Optional<ProdutoModel> getByChassi(String chassi) {
+    return produtoRepository.findByChassi(chassi);
   }
 
 }
