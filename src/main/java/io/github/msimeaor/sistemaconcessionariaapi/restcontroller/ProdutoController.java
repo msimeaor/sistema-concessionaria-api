@@ -20,8 +20,15 @@ public class ProdutoController {
   @PostMapping
   public ResponseEntity<Object> save(@RequestBody ProdutoDTO produtoDTO) {
     if (produtoService.existsByChassi(produtoDTO.getChassi())) {
-      ErrorMessages errorMessages = new ErrorMessages("CHASSI JÁ CADASTRADO!");
-      return ResponseEntity.status(HttpStatus.CONFLICT).body(errorMessages.getMensagem());
+      ErrorMessages chassiCadastrado = new ErrorMessages("CHASSI JÁ CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.CONFLICT).body(chassiCadastrado.getMensagem());
+    }
+
+    if (!(produtoDTO.getPlaca().isEmpty() || produtoDTO.getPlaca().isBlank())) {
+      if (produtoService.existsByPlaca(produtoDTO.getPlaca())) {
+        ErrorMessages placaCadastrada = new ErrorMessages("PLACA JÁ CADASTRADA!");
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(placaCadastrada.getMensagem());
+      }
     }
 
     ProdutoModel produtoModel = ClienteController.instanciarESetarPropriedades(produtoDTO, ProdutoModel.class);

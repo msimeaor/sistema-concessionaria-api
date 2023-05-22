@@ -6,5 +6,6 @@ public interface ProdutoService {
 
   boolean existsByChassi(String chassi);
   ProdutoModel save(ProdutoModel produtoModel);
+  boolean existsByPlaca(String placa);
 
 }

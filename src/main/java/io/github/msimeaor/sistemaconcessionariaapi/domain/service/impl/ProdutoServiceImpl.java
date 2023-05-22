@@ -6,6 +6,8 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.service.ProdutoService
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 @RequiredArgsConstructor
 @Service
 public class ProdutoServiceImpl implements ProdutoService {
@@ -16,8 +18,13 @@ public class ProdutoServiceImpl implements ProdutoService {
     return produtoRepository.existsByChassi(chassi);
   }
 
+  @Transactional
   public ProdutoModel save(ProdutoModel produtoModel) {
     return produtoRepository.save(produtoModel);
+  }
+
+  public boolean existsByPlaca(String placa) {
+    return produtoRepository.existsByPlaca(placa);
   }
 
 }

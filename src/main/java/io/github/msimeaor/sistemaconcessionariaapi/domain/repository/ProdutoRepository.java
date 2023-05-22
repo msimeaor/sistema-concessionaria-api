@@ -10,5 +10,6 @@ import java.util.UUID;
 public interface ProdutoRepository extends JpaRepository<ProdutoModel, UUID> {
 
   boolean existsByChassi(String chassi);
+  boolean existsByPlaca(String placa);
 
 }
