@@ -24,9 +24,38 @@ public class ProdutoModel {
   private UUID id;
 
   @NotEmpty(message = "{model.message.empty}")
-  @Size(max = 100, message = "{model.message.size.limit}")
-  @Column(name = "DESCRICAO", nullable = false, length = 100)
-  private String descricao;
+  @Size(max = 50, message = "{model.message.size.limit}")
+  @Column(name = "MARCA", nullable = false, length = 50)
+  private String marca;
+
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 50, message = "{model.message.size.limit}")
+  @Column(name = "MODELO", nullable = false, length = 50)
+  private String modelo;
+
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 4, message = "{model.message.size.limit}")
+  @Column(name = "ANO", nullable = false, length = 4)
+  private String ano;
+
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 50, message = "{model.message.size.limit}")
+  @Column(name = "COR", nullable = false, length = 50)
+  private String cor;
+
+  @Size(max = 7, message = "{model.message.size.limit}")
+  @Column(name = "PLACA", length = 7)
+  private String placa;
+
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 17, message = "{model.message.size.limit}")
+  @Column(name = "CHASSI", nullable = false, unique = true, length = 17)
+  private String chassi;
+
+  @NotEmpty(message = "{model.message.empty}")
+  @Size(max = 3, message = "{model.message.size.limit}")
+  @Column(name = "MOTOR", nullable = false, length = 3)
+  private String motor;
 
   @NotNull(message = "{model.message.null}")
   @Digits(integer = 20, fraction = 2, message = "{model.message.invalid.price}")
