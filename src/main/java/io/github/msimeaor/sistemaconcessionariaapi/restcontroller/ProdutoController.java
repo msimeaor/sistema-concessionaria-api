@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -43,11 +44,25 @@ public class ProdutoController {
   public ResponseEntity<Object> getByChassi(@PathVariable(name = "chassi") String chassi) {
     Optional<ProdutoModel> produtoModelOptional = produtoService.getByChassi(chassi);
     if (!produtoModelOptional.isPresent()) {
-      ErrorMessages produtoNull = new ErrorMessages("CHASSI NÃO CADASTRADO!");
-      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(produtoNull.getMensagem());
+      ErrorMessages chassiNull = new ErrorMessages("CHASSI NÃO CADASTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(chassiNull.getMensagem());
     }
 
     return ResponseEntity.status(HttpStatus.OK).body(produtoModelOptional.get());
+
+  }
+
+  @PutMapping("/{id}")
+  public ResponseEntity<Object> update(@PathVariable(name = "id") UUID id, @RequestBody @Valid ProdutoDTO produtoDTO) {
+    Optional<ProdutoModel> produtoModelOptional = produtoService.getById(id);
+    if (!produtoModelOptional.isPresent()) {
+      ErrorMessages idNull = new ErrorMessages("ID NÃO ENCONTRADO!");
+      return ResponseEntity.status(HttpStatus.NOT_FOUND).body(idNull.getMensagem());
+    }
+
+    ProdutoModel produtoModel = ClienteController.instanciarESetarPropriedades(produtoDTO, ProdutoModel.class);
+    produtoModel.setId(produtoModelOptional.get().getId());
+    return ResponseEntity.status(HttpStatus.OK).body(produtoService.save(produtoModel));
 
   }
 
