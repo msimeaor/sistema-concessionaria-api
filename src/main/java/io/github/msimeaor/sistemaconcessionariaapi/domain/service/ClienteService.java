@@ -13,5 +13,4 @@ public interface ClienteService {
   ClienteModel save(ClienteModel clienteModel);
   Optional<ClienteModel> getById(UUID id);
   Optional<ClienteModel> getByCpf(String cpf);
-  void delete(ClienteModel clienteModel);
 }
