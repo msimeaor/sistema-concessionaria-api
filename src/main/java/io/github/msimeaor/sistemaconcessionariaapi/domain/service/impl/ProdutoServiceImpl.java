@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -30,6 +31,10 @@ public class ProdutoServiceImpl implements ProdutoService {
 
   public Optional<ProdutoModel> getByChassi(String chassi) {
     return produtoRepository.findByChassi(chassi);
+  }
+
+  public Optional<ProdutoModel> getById(UUID id) {
+    return produtoRepository.findById(id);
   }
 
 }

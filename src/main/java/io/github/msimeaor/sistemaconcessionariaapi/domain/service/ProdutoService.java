@@ -3,6 +3,7 @@ package io.github.msimeaor.sistemaconcessionariaapi.domain.service;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ProdutoModel;
 
 import java.util.Optional;
+import java.util.UUID;
 
 public interface ProdutoService {
 
@@ -10,5 +11,6 @@ public interface ProdutoService {
   ProdutoModel save(ProdutoModel produtoModel);
   boolean existsByPlaca(String placa);
   Optional<ProdutoModel> getByChassi(String chassi);
+  Optional<ProdutoModel> getById(UUID id);
 
 }
