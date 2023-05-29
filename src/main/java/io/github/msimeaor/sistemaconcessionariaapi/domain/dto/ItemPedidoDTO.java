@@ -12,7 +12,7 @@ import java.util.UUID;
 public class ItemPedidoDTO {
 
   @NotNull(message = "{model.message.null}")
-  private UUID produtoModel;
+  private UUID produto;
 
   @NotNull(message = "{model.message.null}")
   @PositiveOrZero(message = "{model.message.negative.value}")

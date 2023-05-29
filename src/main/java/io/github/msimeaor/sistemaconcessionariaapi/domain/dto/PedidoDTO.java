@@ -14,9 +14,9 @@ import java.util.UUID;
 public class PedidoDTO {
 
   @NotNull(message = "{model.message.null}")
-  private UUID clienteModel;
+  private UUID cliente;
 
-  @OneToMany(mappedBy = "pedidoModel")
+  @OneToMany(mappedBy = "pedido")
   @NotEmptyList(message = "{model.message.empty.list}")
   private List<ItemPedidoDTO> itensPedidos;
 

@@ -33,7 +33,7 @@ public class PedidoModel {
   @NotNull(message = "{model.message.null}")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "CLIENTE")
-  private ClienteModel clienteModel;
+  private ClienteModel cliente;
 
   @NotNull(message = "{model.message.null}")
   @FutureOrPresent(message = "{model.message.invalid.date}")
@@ -45,7 +45,7 @@ public class PedidoModel {
   @Column(name = "TOTAL", nullable = false, precision = 20, scale = 2)
   private BigDecimal total;
 
-  @OneToMany(mappedBy = "pedidoModel")
+  @OneToMany(mappedBy = "pedido")
   @NotEmptyList(message = "{model.message.empty.list}")
   private List<ItemPedidoModel> itensPedidos;
 
