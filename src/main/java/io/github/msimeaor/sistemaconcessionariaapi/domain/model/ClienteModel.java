@@ -91,7 +91,7 @@ public class ClienteModel {
   @Column(name = "UF", nullable = false)
   private Uf uf;
 
-  @OneToMany(mappedBy = "clienteModel")
+  @OneToMany(mappedBy = "cliente")
   private List<PedidoModel> listaPedidos;
 
 }

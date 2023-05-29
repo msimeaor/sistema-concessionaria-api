@@ -26,12 +26,12 @@ public class ItemPedidoModel {
   @NotNull(message = "{model.message.null}")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PEDIDO")
-  private PedidoModel pedidoModel;
+  private PedidoModel pedido;
 
   @NotNull(message = "{model.message.null}")
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PRODUTO")
-  private ProdutoModel produtoModel;
+  private ProdutoModel produto;
 
   @NotNull(message = "{model.message.null}")
   @PositiveOrZero(message = "{model.message.negative.value}")
