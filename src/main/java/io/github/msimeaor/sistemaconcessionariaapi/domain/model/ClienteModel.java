@@ -1,5 +1,6 @@
 package io.github.msimeaor.sistemaconcessionariaapi.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.enums.Uf;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -91,6 +92,7 @@ public class ClienteModel {
   @Column(name = "UF", nullable = false)
   private Uf uf;
 
+  @JsonIgnore
   @OneToMany(mappedBy = "cliente")
   private List<PedidoModel> listaPedidos;
 
