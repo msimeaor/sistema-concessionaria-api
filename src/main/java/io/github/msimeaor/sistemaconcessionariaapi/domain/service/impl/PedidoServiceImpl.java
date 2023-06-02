@@ -12,7 +12,6 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.ItemPedidoR
 import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.PedidoRepository;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.PedidoService;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ExceptionLancada;
-import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ExceptionPersonalizada;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 

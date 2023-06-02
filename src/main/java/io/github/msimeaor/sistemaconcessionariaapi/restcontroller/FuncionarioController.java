@@ -5,8 +5,10 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.model.FuncionarioModel
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.FuncionarioServiceImpl;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -18,6 +20,9 @@ import java.util.UUID;
 @RequestMapping("/funcionario")
 @RestController
 public class FuncionarioController {
+
+  @Autowired
+  private PasswordEncoder passwordEncoder;
 
   private final FuncionarioServiceImpl funcionarioService;
 
@@ -39,6 +44,7 @@ public class FuncionarioController {
     }
 
     FuncionarioModel funcionarioModel = ClienteController.instanciarESetarPropriedades(funcionarioDTO, FuncionarioModel.class);
+    funcionarioModel.setSenha(passwordEncoder.encode(funcionarioModel.getSenha()));
     return ResponseEntity.status(HttpStatus.CREATED).body(funcionarioService.save(funcionarioModel));
   }
 
