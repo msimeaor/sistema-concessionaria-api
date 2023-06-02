@@ -11,7 +11,8 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ProdutoModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.ItemPedidoRepository;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.PedidoRepository;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.PedidoService;
-import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ModelNaoEncontrado;
+import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ExceptionLancada;
+import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ExceptionPersonalizada;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -36,7 +37,7 @@ public class PedidoServiceImpl implements PedidoService {
     Optional<ClienteModel> clienteModelOptional =
       clienteService.getById(pedidoDTO.getCliente());
     if (!clienteModelOptional.isPresent()) {
-      throw new ModelNaoEncontrado("CLIENTE NÃO ENCONTRADO!");
+      throw new ExceptionLancada("CLIENTE NÃO ENCONTRADO!");
     }
 
     PedidoModel pedidoModel = PedidoModel.builder()
@@ -62,7 +63,7 @@ public class PedidoServiceImpl implements PedidoService {
       Optional<ProdutoModel> produtoModelOptional =
         produtoService.getById(itemPedidoDTO.getProduto());
       if (!produtoModelOptional.isPresent()) {
-        throw new ModelNaoEncontrado("PRODUTO NÃO ENCONTRADO!");
+        throw new ExceptionLancada("PRODUTO NÃO ENCONTRADO!");
       }
 
       ProdutoModel produtoModel = produtoModelOptional.get();
@@ -82,8 +83,15 @@ public class PedidoServiceImpl implements PedidoService {
 
     for(ItemPedidoDTO itemPedidoDTO : pedidoDTO.getItensPedidos()) {
       Optional<ProdutoModel> produtoModelOptional = produtoService.getById(itemPedidoDTO.getProduto());
+
       if (!produtoModelOptional.isPresent()) {
-        throw new ModelNaoEncontrado("PRODUTO NÃO ENCONTRADO!");
+        throw new ExceptionLancada("PRODUTO NÃO ENCONTRADO!");
+      }
+
+      ProdutoModel produtoModel = produtoModelOptional.get();
+
+      if (itemPedidoDTO.getQuantidade() > produtoModel.getEstoque()) {
+        throw new ExceptionLancada("ESTOQUE INSUFICIENTE!");
       }
 
       ItemPedidoModel itemPedidoModel = ItemPedidoModel.builder()
@@ -93,6 +101,7 @@ public class PedidoServiceImpl implements PedidoService {
         .build();
 
       itensPedidos.add(itemPedidoModel);
+      produtoModel.setEstoque(produtoModel.getEstoque() - itemPedidoDTO.getQuantidade());
     }
 
     return itensPedidos;
