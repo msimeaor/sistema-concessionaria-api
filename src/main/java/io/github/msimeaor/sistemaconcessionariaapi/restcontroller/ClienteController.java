@@ -1,9 +1,7 @@
 package io.github.msimeaor.sistemaconcessionariaapi.restcontroller;
 
 import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.ClienteDTO;
-import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.FuncionarioDTO;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ClienteModel;
-import io.github.msimeaor.sistemaconcessionariaapi.domain.model.FuncionarioModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.ClienteServiceImpl;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import lombok.RequiredArgsConstructor;
