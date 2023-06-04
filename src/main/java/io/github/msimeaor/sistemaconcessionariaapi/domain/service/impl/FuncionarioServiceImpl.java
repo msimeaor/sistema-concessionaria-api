@@ -36,7 +36,7 @@ public class FuncionarioServiceImpl implements UserDetailsService, FuncionarioSe
 
     FuncionarioModel funcionarioModel = funcionarioModelOptional.get();
 
-    String[] roles = (funcionarioModel.getAcesso() == "ADMIN") ? new String[]{"USER", "ADMIN"} : new String[]{"USER"};
+    String[] roles = (funcionarioModel.getAcesso().equals("ADMIN")) ? new String[]{"USER", "ADMIN"} : new String[]{"USER"};
 
     return User
       .builder()
