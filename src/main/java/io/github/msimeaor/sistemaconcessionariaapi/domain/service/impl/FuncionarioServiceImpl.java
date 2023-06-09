@@ -4,6 +4,7 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.model.FuncionarioModel
 import io.github.msimeaor.sistemaconcessionariaapi.domain.repository.FuncionarioRepository;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.FuncionarioService;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ExceptionLancada;
+import io.github.msimeaor.sistemaconcessionariaapi.exceptions.SenhaInvalidaException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -44,6 +45,16 @@ public class FuncionarioServiceImpl implements UserDetailsService, FuncionarioSe
       .roles(roles)
       .password(funcionarioModel.getSenha())
       .build();
+  }
+
+  public UserDetails autenticar(FuncionarioModel funcionarioModel) {
+    UserDetails user = loadUserByUsername(funcionarioModel.getEmail());
+    boolean senhaCorreta = passwordEncoder.matches(funcionarioModel.getSenha(), user.getPassword());
+
+    if (senhaCorreta) {
+      return user;
+    }
+    throw new SenhaInvalidaException();
   }
 
   public boolean existsByCpf(String cpf) {
