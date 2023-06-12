@@ -4,6 +4,7 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.dto.ClienteDTO;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.model.ClienteModel;
 import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.ClienteServiceImpl;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -18,11 +19,18 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/cliente")
+@Api("API DE CLIENTES")
 public class ClienteController {
 
   private final ClienteServiceImpl clienteService;
 
   @PostMapping
+  @ApiOperation("SALVAR NO BANCO DE DADOS")
+  @ApiResponses({
+    @ApiResponse(code = 409, message = "Cliente já cadastrado"),
+    @ApiResponse(code = 403, message = "Funcionário não autorizado"),
+    @ApiResponse(code = 201, message = "Cliente salvo com sucesso")
+  })
   public ResponseEntity<Object> save(@RequestBody @Valid ClienteDTO clienteDTO) {
     if (clienteService.existsByCpf(clienteDTO.getCpf())) {
       ErrorMessages errorMessages = new ErrorMessages("CPF JÁ CADASTRADO!");
@@ -44,8 +52,14 @@ public class ClienteController {
   }
 
   @PutMapping("/{id}")
+  @ApiOperation("ATUALIZA OS DADOS")
+  @ApiResponses({
+    @ApiResponse(code = 404, message = "Cliente não encontrado"),
+    @ApiResponse(code = 403, message = "Funcionário não autorizado"),
+    @ApiResponse(code = 200, message = "Cliente atualizado com sucesso")
+  })
   public ResponseEntity<Object> update(@RequestBody @Valid ClienteDTO clienteDTO,
-                                       @PathVariable(name = "id") UUID id) {
+                                       @PathVariable(name = "id") @ApiParam("ID DO CLIENTE") UUID id) {
 
     Optional<ClienteModel> clienteModelOptional = clienteService.getById(id);
     if (!clienteModelOptional.isPresent()) {
@@ -59,7 +73,13 @@ public class ClienteController {
   }
 
   @GetMapping("/{cpf}")
-  public ResponseEntity<Object> getByCpf(@PathVariable(name = "cpf") String cpf) {
+  @ApiOperation("BUSCA POR CPF")
+  @ApiResponses({
+    @ApiResponse(code = 404, message = "Cliente não encontrado"),
+    @ApiResponse(code = 403, message = "Funcionário não autorizado"),
+    @ApiResponse(code = 200, message = "Cliente encontrado")
+  })
+  public ResponseEntity<Object> getByCpf(@PathVariable(name = "cpf") @ApiParam("CPF DO CLIENTE") String cpf) {
     Optional<ClienteModel> clienteModelOptional = clienteService.getByCpf(cpf);
     if (!clienteModelOptional.isPresent()) {
       ErrorMessages errorMessages = new ErrorMessages("CLIENTE NÃO ENCONTRADO!");

@@ -8,6 +8,7 @@ import io.github.msimeaor.sistemaconcessionariaapi.domain.service.impl.Funcionar
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.ErrorMessages;
 import io.github.msimeaor.sistemaconcessionariaapi.exceptions.SenhaInvalidaException;
 import io.github.msimeaor.sistemaconcessionariaapi.security.jwt.JwtService;
+import io.swagger.annotations.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -26,6 +27,7 @@ import java.util.UUID;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RequestMapping("/funcionario")
 @RestController
+@Api("API DE FUNCIONARIOS")
 public class FuncionarioController {
 
   @Autowired
@@ -35,7 +37,13 @@ public class FuncionarioController {
 
   private final FuncionarioServiceImpl funcionarioService;
 
+
   @PostMapping("/auth")
+  @ApiOperation("RECEBE LOGIN E SENHA PARA AUTENTICAÇÃO")
+  @ApiResponses({
+    @ApiResponse(code = 401, message = "Login ou senha inválido"),
+    @ApiResponse(code = 200, message = "Funcionário autenticado")
+  })
   public TokenDTO autenticar(@RequestBody CredenciaisDTO credenciaisDTO) {
     try {
 
@@ -59,6 +67,11 @@ public class FuncionarioController {
   }
 
   @PostMapping
+  @ApiOperation("SALVA NO BANCO DE DADOS")
+  @ApiResponses({
+    @ApiResponse(code = 409, message = "Funcionário já cadastrado"),
+    @ApiResponse(code = 201, message = "Funcionário cadastrado com sucesso")
+  })
   public ResponseEntity<Object> save(@RequestBody @Valid FuncionarioDTO funcionarioDTO) {
     if (funcionarioService.existsByCpf(funcionarioDTO.getCpf())) {
       ErrorMessages errorMessages = new ErrorMessages("CPF JÁ CADASTRADO!");
@@ -81,7 +94,12 @@ public class FuncionarioController {
   }
 
   @GetMapping("/{CPF}")
-  public ResponseEntity<Object> getByCpf(@PathVariable(name = "CPF") String cpf) {
+  @ApiOperation("BUSCA POR CPF")
+  @ApiResponses({
+    @ApiResponse(code = 404, message = "Funcionário não encontrado"),
+    @ApiResponse(code = 200, message = "Funcionário encontrado")
+  })
+  public ResponseEntity<Object> getByCpf(@PathVariable(name = "CPF") @ApiParam("CPF DO FUNCIONARIO") String cpf) {
     Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getByCpf(cpf);
     if (!(funcionarioModelOptional.isPresent())) {
       ErrorMessages errorMessages = new ErrorMessages("FUNCIONÁRIO NÃO ENCONTRADO!");
@@ -92,7 +110,12 @@ public class FuncionarioController {
   }
 
   @PutMapping("/{id}")
-  public ResponseEntity<Object> update(@PathVariable(name = "id") UUID id,
+  @ApiOperation("ATUALIZA DADOS")
+  @ApiResponses({
+    @ApiResponse(code = 404, message = "Funcionário não encontrado"),
+    @ApiResponse(code = 200, message = "Funcionário atualizado com sucesso")
+  })
+  public ResponseEntity<Object> update(@PathVariable(name = "id") @ApiParam("ID DO FUNCIONARIO") UUID id,
                                        @RequestBody @Valid FuncionarioDTO funcionarioDTO) {
 
     Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getById(id);
@@ -107,7 +130,12 @@ public class FuncionarioController {
   }
 
   @DeleteMapping("/{id}")
-  public ResponseEntity<Object> delete(@PathVariable(name = "id") UUID id) {
+  @ApiOperation("DELETA REGISTRO DO BANCO DE DADOS")
+  @ApiResponses({
+    @ApiResponse(code = 404, message = "Funcionário não encontrado"),
+    @ApiResponse(code = 200, message = "Funcionário deletado com sucesso")
+  })
+  public ResponseEntity<Object> delete(@PathVariable(name = "id") @ApiParam("ID DO FUNCIONARIO") UUID id) {
     Optional<FuncionarioModel> funcionarioModelOptional = funcionarioService.getById(id);
     if (!(funcionarioModelOptional.isPresent())) {
       ErrorMessages errorMessages = new ErrorMessages("CLIENTE NÃO ENCONTRADO!");

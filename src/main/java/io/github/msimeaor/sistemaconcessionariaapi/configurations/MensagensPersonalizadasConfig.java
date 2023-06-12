@@ -9,12 +9,12 @@ import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import java.util.Locale;
 
 @Configuration
-public class ErrorMesagesConfig {
+public class MensagensPersonalizadasConfig {
 
   @Bean
   public MessageSource messageSource() {
     ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
-    messageSource.setBasename("classpath:error-messages");
+    messageSource.setBasename("classpath:mensagens-personalizadas");
     messageSource.setDefaultEncoding("ISO-8859-1");
     messageSource.setDefaultLocale(Locale.getDefault());
     return messageSource;
