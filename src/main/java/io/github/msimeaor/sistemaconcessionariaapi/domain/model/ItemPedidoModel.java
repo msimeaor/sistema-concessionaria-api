@@ -20,7 +20,7 @@ public class ItemPedidoModel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "ID")
+  @Column(name = "ID", columnDefinition = "BINARY(16)")
   private UUID id;
 
   @NotNull(message = "{model.message.null}")
