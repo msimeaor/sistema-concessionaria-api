@@ -23,7 +23,7 @@ public class ClienteModel {
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  @Column(name = "ID")
+  @Column(name = "ID", columnDefinition = "BINARY(16)")
   private UUID id;
 
   @NotEmpty(message = "{model.message.empty}")
